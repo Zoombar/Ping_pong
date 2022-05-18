@@ -3,6 +3,8 @@ window = display.set_mode((700, 500))
 display.set_caption('Ping Pong')
 background = transform.scale(image.load('background.jpg'), (700, 500))
 win_height = 500
+speed_x = 3
+speed_y = 3
 clock = time.Clock()
 FPS = 60
 
@@ -35,18 +37,25 @@ class Player(GameSprite):
 
 player1 = Player('wall.png', 30, 200,50,150, 4)
 player2 = Player('wall.png', 630, 200,50,150, 4)
+ball = GameSprite('ball.png',270,130,150,100,4)
 
 game = True
+finish = False
 
 while game:
     window.blit(background, (0,0))
-
     for e in event.get():
         if e.type == QUIT:
             game = False
-    player1.update_l()
-    player1.reset()
-    player2.update_r()
-    player2.reset()
+    if finish != True:
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
+    
+        player1.update_l()
+        player1.reset()
+        player2.update_r()
+        player2.reset()
+        ball.reset()
+        ball.update()
     display.update()
     clock.tick(FPS)
