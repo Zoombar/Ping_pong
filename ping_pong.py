@@ -37,7 +37,7 @@ class Player(GameSprite):
 
 player1 = Player('wall.png', 30, 200,50,150, 4)
 player2 = Player('wall.png', 630, 200,50,150, 4)
-ball = GameSprite('ball.png',270,130,150,100,4)
+ball = GameSprite('ball.png',270,130,130,80,4)
 
 game = True
 finish = False
@@ -50,12 +50,18 @@ while game:
     if finish != True:
         ball.rect.x += speed_x
         ball.rect.y += speed_y
+
+    if ball.rect.y > win_height-50 or ball.rect.y < 0:
+        speed_y *= -1
     
-        player1.update_l()
-        player1.reset()
-        player2.update_r()
-        player2.reset()
-        ball.reset()
-        ball.update()
+    if sprite.collide_rect(player1, ball) or sprite.collide_rect(player2, ball):
+        speed_x *= -1
+
+    player1.update_l()
+    player1.reset()
+    player2.update_r()
+    player2.reset()
+    ball.reset()
+    ball.update()
     display.update()
     clock.tick(FPS)
